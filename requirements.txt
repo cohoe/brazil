@@ -1,0 +1,3 @@
+# https://github.com/UnitedIncome/serverless-python-requirements/issues/240
+# https://github.com/pypa/pip/issues/4390
+git+https://github.com/cohoe/barmenu#egg=barmenu

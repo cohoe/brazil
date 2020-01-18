@@ -1,6 +1,11 @@
 Brazil
 ======
 
+Plugins:
+* serverless-python-requrements
+* serverless-offline
+* serverless-dynamodb-local
+
 Random Commands
 ---------------
 ```

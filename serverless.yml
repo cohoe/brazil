@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: recipes
+service: recipe
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -22,7 +22,7 @@ service: recipes
 
 provider:
   name: aws
-  runtime: python3.8
+  runtime: python3.7
 
 # you can overwrite defaults here
 #  stage: dev
@@ -49,7 +49,13 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
-#package:
+package:
+  exclude:
+    - node_modules/**
+    - .idea/**
+    - .dynamodb/**
+    - package-lock.json
+    - README.md
 #  include:
 #    - include-me.py
 #    - include-me-dir/**
@@ -58,12 +64,12 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: /
-          method: get
+#  hello:
+#    handler: handler.hello
+#    events:
+#      - http:
+#          path: /
+#          method: get
   recipeGet:
     handler: functions/recipe.get
     events:
@@ -139,7 +145,12 @@ resources:
 plugins:
   - serverless-offline
   - serverless-dynamodb-local
+  - serverless-python-requirements
 custom:
   dynamodb:
     stages:
       - ${self:provider.stage}
+  pythonRequirements:
+    dockerizePip: false
+#    useDownloadCache: true
+#    useStaticCache: true

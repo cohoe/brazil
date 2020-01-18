@@ -1,0 +1,11 @@
+{
+  "name": "brazil",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {
+    "serverless": "^1.61.2",
+    "serverless-dynamodb-local": "^0.2.38",
+    "serverless-offline": "^5.12.1",
+    "serverless-python-requirements": "^5.0.1"
+  }
+}

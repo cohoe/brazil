@@ -1,9 +1,0 @@
-Resources:
-  Function:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: recipe.get
-      CodeUri: Function
-      Runtime: python3.7
-      Timeout: 30
-      MemorySize: 128

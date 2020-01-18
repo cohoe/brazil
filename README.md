@@ -1,0 +1,8 @@
+Brazil
+======
+
+Random Commands
+---------------
+```
+aws --profile localtest --region us-east-2 dynamodb list-tables --endpoint-url http://127.0.0.1:8000
+```

@@ -70,11 +70,11 @@ functions:
 #      - http:
 #          path: /
 #          method: get
-  recipeGet:
-    handler: functions/recipe.get
+  CocktailGet:
+    handler: functions/library/cocktails.get
     events:
       - http:
-          path: /{slug}
+          path: /library/cocktail/{slug}
           method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -129,10 +129,10 @@ functions:
 #       Value: "Some output value"
 resources:
   Resources:
-    RecipesTable:
+    CocktailsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: RecipesTable
+        TableName: cocktails
         AttributeDefinitions:
           - AttributeName: slug
             AttributeType: S
@@ -150,6 +150,8 @@ custom:
   dynamodb:
     stages:
       - ${self:provider.stage}
+    start:
+      noStart: true # This should force it to use Havana's DynamoDB
   pythonRequirements:
     dockerizePip: false
 #    useDownloadCache: true

@@ -1,3 +1,5 @@
 # https://github.com/UnitedIncome/serverless-python-requirements/issues/240
 # https://github.com/pypa/pip/issues/4390
-git+https://github.com/cohoe/barmenu#egg=barmenu
+git+https://github.com/cohoe/barbados#egg=barbados
+# https://www.serverlessops.io/blog/aws-lambda-and-python-boto3-bundling
+boto3>=1.11.5

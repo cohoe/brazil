@@ -64,18 +64,26 @@ package:
 #    - exclude-me-dir/**
 
 functions:
-  CocktailList:
-    handler: functions/library/cocktails._list
-    events:
-      - http:
-          path: /library/cocktail/
-          method: get
   CocktailGet:
     handler: functions/library/cocktails.get
     events:
       - http:
-          path: /library/cocktail/{slug}
+          path: /library/cocktails/by-slug/{slug}
           method: get
+  CocktailsList:
+    handler: functions/library/cocktails._list
+    events:
+      - http:
+          path: /library/cocktails/
+          method: get
+  CocktailsByAlpha:
+    handler: functions/library/cocktails.list_by_alpha
+    events:
+      - http:
+          path: /library/cocktails/by-alpha/{alpha}
+          method: get
+  BuildSearchCache:
+    handler: functions/library/cocktails.build_search_cache
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

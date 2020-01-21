@@ -30,18 +30,19 @@ def _list(event, context):
 def list_by_alpha(event, context):
     alpha = event['pathParameters']['alpha']
 
+    if len(alpha) > 1:
+        return ({
+            'statusCode': 400,
+            'body': 'Only pass a single character.'
+        })
+
     redis = RedisConnector()
     try:
-        cocktail_name_list = json.loads(redis.get(barbados.config.cache.cocktail_name_list_key))
-
-        cocktail_names = []
-        for entry in cocktail_name_list:
-            if entry['display_name'].upper().startswith(alpha.upper()):
-                cocktail_names.append(entry)
+        search_index = json.loads(redis.get(barbados.config.cache.cocktail_name_list_key))
 
         response = {
             'statusCode': 200,
-            'body': json.dumps(cocktail_names)
+            'body': json.dumps(_get_key_from_cache(search_index, alpha))
         }
 
     except KeyError:
@@ -82,8 +83,39 @@ def get(event, context):
     return response
 
 
+# def build_search_cache(event, context):
+#     redis = RedisConnector()
+#     index_scan_results = CocktailModel.name_index.scan()
+#     results = [result.attribute_values for result in index_scan_results]
+#     redis.set(barbados.config.cache.cocktail_name_list_key, json.dumps(results))
+
 def build_search_cache(event, context):
     redis = RedisConnector()
     index_scan_results = CocktailModel.name_index.scan()
-    results = [result.attribute_values for result in index_scan_results]
-    redis.set(barbados.config.cache.cocktail_name_list_key, json.dumps(results))
+
+    index = {}
+    for result in index_scan_results:
+        key_alpha = result.slug[0].upper()
+        if key_alpha not in index.keys():
+            index[key_alpha] = [result.attribute_values]
+        else:
+            index[key_alpha].append(result.attribute_values)
+
+    redis.set(barbados.config.cache.cocktail_name_list_key, json.dumps(index))
+
+
+def _get_key_from_cache(cache, key):
+    if key == '#':
+        search_results = []
+        for i in range(0,10):
+            try:
+                search_results += cache[str(i)]
+            except KeyError:
+                pass
+    else:
+        try:
+            search_results = cache[key.upper()]
+        except KeyError:
+            search_results = []
+
+    return search_results
